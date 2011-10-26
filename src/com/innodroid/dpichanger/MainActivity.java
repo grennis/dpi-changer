@@ -10,11 +10,13 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.innodroid.dpichanger.CommitTask.CommitTaskHandler;
 import com.innodroid.dpichanger.SetupTask.SetupTaskHandler;
 import com.stericson.RootTools.RootTools;
 
-public class MainActivity extends Activity implements SetupTaskHandler {
+public class MainActivity extends Activity implements SetupTaskHandler, CommitTaskHandler {
 
 	private static final int DIALOG_NOT_ROOT = 101;
 	private static final int DIALOG_ERROR_READ = 102;
@@ -40,6 +42,7 @@ public class MainActivity extends Activity implements SetupTaskHandler {
         mSaveButton.setOnClickListener(new OnClickListener() {
 			@Override
 			public void onClick(View arg0) {
+				commit();
 			}
 		});
     }
@@ -81,6 +84,37 @@ public class MainActivity extends Activity implements SetupTaskHandler {
 			mDpiText.setEnabled(true);
 			mSaveButton.setEnabled(true);
 		}
+	}
+	
+	private void commit() {
+		int dpi = parseAndValidateDpi();
+
+		if (dpi == 0) {
+			Toast.makeText(this, "Enter a valid DPI value", Toast.LENGTH_SHORT).show();
+			return;
+		}
+		
+		new CommitTask(this, this, dpi).execute();
+	}
+
+	private int parseAndValidateDpi() {
+		try {
+			int dpi = Integer.parseInt(mDpiText.getText().toString());
+			
+			// LDPI to XHDPI
+			if (dpi < 120 || dpi > 320) 
+				return 0;
+			
+			return dpi;			
+		} catch (NumberFormatException ex) {
+			ex.printStackTrace();
+			return 0;
+		}
+	}
+
+	@Override
+	public void onCommitComplete(boolean result) {
+		showDialog(DIALOG_DONE);
 	}
 }
 
