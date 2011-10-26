@@ -25,6 +25,7 @@
 	    
 	    <EditText
 	        android:id="@+id/dpi_text"
+	        android:enabled="false"
 	        android:layout_width="0dp"
 	        android:layout_height="wrap_content"
 	        android:layout_weight="1"
@@ -41,6 +42,7 @@
       
 	<Button
 	    android:id="@+id/save_button"
+        android:enabled="false"
 	    android:text="Save"
 	    android:paddingLeft="30dp"
 	    android:paddingRight="30dp"
