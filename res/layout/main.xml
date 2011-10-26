@@ -36,10 +36,17 @@
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
         android:singleLine="false"
-        android:text="CAUTION! Changing DPI to an invalid or inappropriate number will render your device UNUSABLE! You must do a full backup and know how to factory reset your phone via ADB. If you don't know how to do this, STOP NOW!" />
-      
+        android:text="CAUTION! Changing DPI to an invalid or inappropriate number will render your device UNUSABLE! You must do a full backup and know how to factory reset your phone via ADB. If you don't know how to do this, DO NOT CONTINUE!" />
+
+	<TextView
+	    android:id="@+id/backup_location_text"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
+        android:singleLine="false" />
+    
 	<Button
 	    android:id="@+id/save_button"
         android:enabled="false"
@@ -49,6 +56,6 @@
 	    android:layout_gravity="center_horizontal"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content" />
-
+	
 </LinearLayout>
 

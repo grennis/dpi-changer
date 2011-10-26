@@ -9,6 +9,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 
 import com.innodroid.dpichanger.SetupTask.SetupTaskHandler;
 import com.stericson.RootTools.RootTools;
@@ -17,7 +18,7 @@ public class MainActivity extends Activity implements SetupTaskHandler {
 
 	private static final int DIALOG_NOT_ROOT = 101;
 	private static final int DIALOG_ERROR_READ = 102;
-	private static final int DIALOG_CONFIRM = 103;
+	private static final int DIALOG_DONE = 103;
 	private EditText mDpiText;
 	private Button mSaveButton;
 
@@ -29,6 +30,8 @@ public class MainActivity extends Activity implements SetupTaskHandler {
         mDpiText = (EditText)findViewById(R.id.dpi_text);
         mSaveButton = (Button)findViewById(R.id.save_button);
 
+        ((TextView)findViewById(R.id.backup_location_text)).setText("Backup will be saved in " + Constants.BACKUP_FILE_NAME);
+                
         if (RootTools.isRootAvailable() && RootTools.isAccessGiven())
         	new SetupTask(this, this).execute();
         else
@@ -48,8 +51,8 @@ public class MainActivity extends Activity implements SetupTaskHandler {
     			return createDialog("Root Denied", "Unable to get root access. Exiting application.", android.R.drawable.ic_dialog_alert);
     		case DIALOG_ERROR_READ:
     			return createDialog("Error", "Unable to read configuration file.", android.R.drawable.ic_dialog_alert);
-    		case DIALOG_CONFIRM:
-    			return createDialog("Done", "Settings updated. You may need to reboot.", android.R.drawable.ic_dialog_info);
+    		case DIALOG_DONE:
+    			return createDialog("Done", "DPI setting has been updated. You need to reboot to take effect.", android.R.drawable.ic_dialog_info);
     		default:
     			return super.onCreateDialog(id);
     	}
