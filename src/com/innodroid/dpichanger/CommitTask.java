@@ -9,6 +9,7 @@ import java.io.IOException;
 import android.content.Context;
 
 import com.stericson.RootTools.RootTools;
+import com.stericson.RootTools.RootToolsException;
 
 public class CommitTask extends BaseTask {
 	private int mDpi;
@@ -47,21 +48,25 @@ public class CommitTask extends BaseTask {
 		}
 	}
 	
-	private int doCopyBackToSystemWithNewDpi() throws IOException {
+	private int doCopyBackToSystemWithNewDpi() throws IOException, InterruptedException, RootToolsException {
+		
+	    RootTools.sendShell("chmod 777 " + Constants.CONFIG_FILE_NAME + "\n");
+	    
 		String line;
 		int result = 0;
 		FileReader reader = new FileReader(new File(Constants.BACKUP_FILE_NAME));		
-		BufferedReader buffer = new BufferedReader(reader);		
+		BufferedReader buffer = new BufferedReader(reader);
 		FileWriter writer = new FileWriter(new File(Constants.CONFIG_FILE_NAME), false);
-				
+
 		while ((line = buffer.readLine()) != null) {
 			if (line.startsWith(Constants.DPI_PREFIX)) {
-				writer.write(Constants.DPI_PREFIX + "=" + mDpi);
+				writer.write(Constants.DPI_PREFIX + "=" + mDpi + "\n");
 			} else {
-				writer.write(line);
+				writer.write(line + "\n");
 			}
 		}
-		
+				
+		writer.flush();
 		writer.close();
 		buffer.close();
 		reader.close();

@@ -20,7 +20,8 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
 
 	private static final int DIALOG_NOT_ROOT = 101;
 	private static final int DIALOG_ERROR_READ = 102;
-	private static final int DIALOG_DONE = 103;
+	private static final int DIALOG_ERROR_COMMIT = 103;
+	private static final int DIALOG_DONE = 104;
 	private EditText mDpiText;
 	private Button mSaveButton;
 
@@ -54,6 +55,8 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
     			return createDialog("Root Denied", "Unable to get root access. Exiting application.", android.R.drawable.ic_dialog_alert);
     		case DIALOG_ERROR_READ:
     			return createDialog("Error", "Unable to read configuration file.", android.R.drawable.ic_dialog_alert);
+    		case DIALOG_ERROR_COMMIT:
+    			return createDialog("Error", "Failed to update DPI setting.", android.R.drawable.ic_dialog_info);
     		case DIALOG_DONE:
     			return createDialog("Done", "DPI setting has been updated. You need to reboot to take effect.", android.R.drawable.ic_dialog_info);
     		default:
@@ -114,7 +117,10 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
 
 	@Override
 	public void onCommitComplete(boolean result) {
-		showDialog(DIALOG_DONE);
+		if (result)
+			showDialog(DIALOG_DONE);
+		else
+			showDialog(DIALOG_ERROR_COMMIT);
 	}
 }
 
