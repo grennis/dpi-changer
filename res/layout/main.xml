@@ -15,7 +15,7 @@
         android:singleLine="false"
         android:text="Your current DPI setting is shown below. You may enter a new DPI value and then press Save and reboot your device." />
 
-    <LinearLayout
+	<LinearLayout
 	    android:layout_width="fill_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="horizontal" >
@@ -26,8 +26,28 @@
 	        android:layout_marginRight="10dp"
 	        android:text="DPI: " />
 	    
+	    <Spinner
+	        android:id="@+id/dpi_spinner"
+	        android:enabled="false"
+	        android:layout_width="0dp"
+	        android:layout_height="wrap_content"
+	        android:layout_weight="1" />
+	   </LinearLayout>
+	   
+    <LinearLayout
+        android:id="@+id/custom_dpi"
+	    android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal" >
+
+	    <TextView
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginRight="10dp"
+	        android:text="Custom: " />
+	    
 	    <EditText
-	        android:id="@+id/dpi_text"
+	        android:id="@+id/custom_dpi_text"
 	        android:enabled="false"
 	        android:singleLine="true"
 	        android:layout_width="0dp"
@@ -37,11 +57,12 @@
 	   </LinearLayout>
 
     <TextView
+        android:id="@+id/custom_warning"
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
         android:singleLine="false"
-        android:text="CAUTION! Changing DPI to an invalid or inappropriate number will render your device UNUSABLE! You must do a full backup and know how to factory reset your phone via ADB. If you don't know how to do this, DO NOT CONTINUE!" />
+        android:text="CAUTION! Changing DPI to an invalid or unsupported value will make your device UNUSABLE!" />
 
 	<TextView
 	    android:id="@+id/backup_location_text"
