@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -26,7 +27,8 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
 	private static final int DIALOG_NOT_ROOT = 101;
 	private static final int DIALOG_ERROR_READ = 102;
 	private static final int DIALOG_ERROR_COMMIT = 103;
-	private static final int DIALOG_DONE = 104;
+	private static final int DIALOG_NOT_SUPPORTED = 104;
+	private static final int DIALOG_DONE = 105;
 	private ArrayAdapter<String> mDpiAdapter;
 	private EditText mCustomDpiText;
 	private TextView mCustomDpiWarning;
@@ -63,7 +65,9 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
 
         ((TextView)findViewById(R.id.backup_location_text)).setText("Backup will be saved in " + Constants.BACKUP_FILE_NAME);
                 
-        if (RootTools.isRootAvailable() && RootTools.isAccessGiven())
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1)
+        	showDialog(DIALOG_NOT_SUPPORTED);
+        else if (RootTools.isRootAvailable() && RootTools.isAccessGiven())
         	new SetupTask(this, this).execute();
         else
         	showDialog(DIALOG_NOT_ROOT);
@@ -85,6 +89,8 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
     			return createDialog("Error", "Unable to read configuration file.", android.R.drawable.ic_dialog_alert);
     		case DIALOG_ERROR_COMMIT:
     			return createDialog("Error", "Failed to update DPI setting.", android.R.drawable.ic_dialog_info);
+    		case DIALOG_NOT_SUPPORTED:
+    			return createDialog("Error", "Sorry, your version of Android OS is not supported.", android.R.drawable.ic_dialog_info);
     		case DIALOG_DONE:
     			return createDialog("Done", "DPI setting has been updated. You need to reboot to take effect.", android.R.drawable.ic_dialog_info);
     		default:
