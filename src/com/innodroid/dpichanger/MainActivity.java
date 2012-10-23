@@ -65,7 +65,7 @@ public class MainActivity extends Activity implements SetupTaskHandler, CommitTa
 
         ((TextView)findViewById(R.id.backup_location_text)).setText("Backup will be saved in " + Constants.BACKUP_FILE_NAME);
                 
-        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.GINGERBREAD_MR1)
+        if (Build.VERSION.SDK_INT > Build.VERSION_CODES.ICE_CREAM_SANDWICH_MR1)
         	showDialog(DIALOG_NOT_SUPPORTED);
         else if (RootTools.isRootAvailable() && RootTools.isAccessGiven())
         	new SetupTask(this, this).execute();
